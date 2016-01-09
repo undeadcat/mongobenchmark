@@ -1,0 +1,462 @@
+pure inserts, empty db, mmapv1, ssd
+insert Threads: 1 Elapsed: 00:00:03.9653523, Count: 50000, Average: 0.07930705 ms
+insert Threads: 2 Elapsed: 00:00:02.1308605, Count: 50000, Average: 0.04261721 ms
+insert Threads: 4 Elapsed: 00:00:01.8775140, Count: 50000, Average: 0.03755028 ms
+insert Threads: 8 Elapsed: 00:00:01.7313454, Count: 50000, Average: 0.034626908ms
+insert Threads: 16 Elapsed: 00:00:01.7444225, Count: 50000, Average: 0.03488845ms
+insert Threads: 32 Elapsed: 00:00:01.8714778, Count: 50000, Average: 0.037429556ms
+insert Threads: 64 Elapsed: 00:00:01.7548981, Count: 50000, Average: 0.035097962 ms
+insert Threads: 128 Elapsed: 00:00:01.7894842, Count: 50000, Average: 0.035789684 ms
+
+pure inserts, empty db, tiger, ssd
+insert Threads: 1 Elapsed: 00:00:04.4104399, Count: 50000, Average: 0.088208798ms
+insert Threads: 2 Elapsed: 00:00:02.4056573, Count: 50000, Average: 0.048113152ms
+insert Threads: 4 Elapsed: 00:00:01.5857024, Count: 50000, Average: 0.031714052ms
+insert Threads: 8 Elapsed: 00:00:01.4135571, Count: 50000, Average: 0.028271148ms
+insert Threads: 16 Elapsed: 00:00:01.9238731, Count: 50000, Average: 0.038477462ms
+insert Threads: 32 Elapsed: 00:00:01.4391875, Count: 50000, Average: 0.02878375ms
+insert Threads: 64 Elapsed: 00:00:01.7088282, Count: 50000, Average: 0.03417657ms
+insert Threads: 128 Elapsed: 00:00:01.4802391, Count: 50000, Average: 0.029604782 ms
+
+
+
+WT inserts, 16 threads
+Name                                                                                        	Inc %	     Inc	Exc %	 Exc	Fold
+ ||    || ||    + mongod!mongo::WriteBatchExecutor::executeBatch                            	 13.9	  10,414	  0.6	 431	 379
+ ||    || ||    |+ mongod!mongo::WriteBatchExecutor::bulkExecute                            	 13.3	   9,983	  0.0	  20	   5
+ ||    || ||    | + mongod!mongo::WriteBatchExecutor::execInserts                           	 13.3	   9,963	  0.5	 347	 324
+ ||    || ||    |  + mongod!mongo::WriteBatchExecutor::execOneInsert                        	 12.8	   9,616	  0.8	 633	 612
+ ||    || ||    |   + mongod!mongo::insertOne                                               	 12.0	   8,983	  0.1	  46	  23
+ ||    || ||    |    + mongod!mongo::singleInsert                                           	 11.2	   8,400	  0.4	 272	 239
+ ||    || ||    |    |+ mongod!mongo::WiredTigerRecoveryUnit::_commit                       	  5.6	   4,227	  0.1	  80	  59
+ ||    || ||    |    ||+ mongod!mongo::WiredTigerRecoveryUnit::_txnClose                    	  5.5	   4,147	  0.1	  65	  55
+ ||    || ||    |    || + mongod!__session_commit_transaction                               	  5.5	   4,082	  0.0	  23	   5
+ ||    || ||    |    ||  + mongod!__wt_txn_commit                                           	  5.4	   4,059	  0.1	  55	  49
+ ||    || ||    |    ||   + mongod!__wt_log_write                                           	  5.3	   4,004	  0.1	  57	  29
+ ||    || ||    |    ||    + mongod!__log_write_internal                                    	  4.2	   3,153	  0.3	 205	 184
+ ||    || ||    |    ||    + mongod!wt_snappy_compress                                      	  1.1	     794	  0.0	   7	   0
+ ||    || ||    |    |+ mongod!mongo::Collection::insertDocument                            	  3.2	   2,373	  0.1	  74	  58
+ ||    || ||    |    ||+ mongod!mongo::Collection::_insertDocument                          	  3.1	   2,299	  0.0	  25	   0
+ ||    || ||    |    || + mongod!mongo::WiredTigerRecordStore::insertRecord                 	  1.6	   1,218	  0.5	 353	 323
+ ||    || ||    |    || + mongod!mongo::IndexCatalog::indexRecord                           	  1.4	   1,056	  0.0	   7	   1
+ ||    || ||    |    |+ mongod!mongo::repl::logOp                                           	  2.0	   1,528	  0.2	 176	 156
+ ||    || ||    |    | + mongod!mongo::repl::`anonymous namespace'::_logOpRS                	  1.8	   1,352	  0.8	 629	 597
+ ||    || ||    |    |  + mongod!mongo::Collection::insertDocument                          	  1.0	     723	  0.0	   9	   5
+ ||    || ||    |    |   + mongod!mongo::WiredTigerRecordStore::insertRecord                	  1.0	     714	  0.1	  82	  71
+ ||    || ||    |    |    + mongod!mongo::WiredTigerRecordStore::insertRecord               	  0.8	     606	  0.3	 192	 173
+ ||    || ||    |    |    + mongod!operator new                                             	  0.0	      26	  0.0	   5	   0
+ ||    || ||    |    + mongod!mongo::WriteBatchExecutor::ExecInsertsState::_lockAndCheckImpl	  0.7	     537	  0.7	 502	 490
+ ||    || ||    + mongod!mongo::BatchedInsertRequest::parseBSON                             	  0.6	     465	  0.6	 465	 410
+
+
+
+
+---mmapv1, 20 mln docs---
+0r/100w, 1 threads
+Read: Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms,
+ Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write: Count: 50000, Total: 00:02:01.0972080, ThroughputPerSecond: 412.891435118
+801, Average: 2.4219ms, Max: 300.6967ms, Min: 0.375ms, P90: 2.7617ms, P95: 2.843
+6ms, P99: 12.6694ms
+0r/100w, 2 threads
+Read: Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms,
+ Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write: Count: 50000, Total: 00:01:27.5445399, ThroughputPerSecond: 571.137846599
+157, Average: 1.7508ms, Max: 136.3081ms, Min: 0.3592ms, P90: 4.1679ms, P95: 5.07
+58ms, P99: 25.3503ms
+0r/100w, 4 threads
+Read: Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms,
+ Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write: Count: 50000, Total: 00:01:21.0437066, ThroughputPerSecond: 616.951051446
+603, Average: 1.6208ms, Max: 143.3308ms, Min: 0.3818ms, P90: 8.2235ms, P95: 11.2
+82ms, P99: 36.2247ms
+0r/100w, 8 threads
+Read: Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms,
+ Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write: Count: 50000, Total: 00:01:21.2023300, ThroughputPerSecond: 615.745878227
+879, Average: 1.624ms, Max: 173.6528ms, Min: 1.0152ms, P90: 16.73ms, P95: 31.408
+1ms, P99: 47.0719ms
+0r/100w, 16 threads
+Read: Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms,
+ Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write: Count: 50000, Total: 00:01:21.3254279, ThroughputPerSecond: 614.813857007
+692, Average: 1.6265ms, Max: 158.2257ms, Min: 1.5052ms, P90: 42.4803ms, P95: 52.
+4712ms, P99: 63.7541ms
+0r/100w, 32 threads
+Read: Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms,
+ Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write: Count: 50000, Total: 00:01:21.0613601, ThroughputPerSecond: 616.816692173
+908, Average: 1.6212ms, Max: 194.2924ms, Min: 5.2772ms, P90: 75.1635ms, P95: 82.
+207ms, P99: 94.4753ms
+0r/100w, 64 threads
+Read: Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms,
+ Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write: Count: 50000, Total: 00:01:23.9356188, ThroughputPerSecond: 595.694661156
+176, Average: 1.6787ms, Max: 369.8026ms, Min: 7.4704ms, P90: 131.3417ms, P95: 13
+7.5409ms, P99: 162.6807ms
+0r/100w, 128 threads
+Read: Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms,
+ Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write: Count: 50000, Total: 00:01:23.4713578, ThroughputPerSecond: 599.007867103
+367, Average: 1.6694ms, Max: 379.3161ms, Min: 3.7793ms, P90: 232.5804ms, P95: 24
+1.0427ms, P99: 261.9028ms
+
+
+
+---tiger, 20 mln docs---
+0r/100w, 1 threads
+Read: Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms,
+ Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write: Count: 50000, Total: 00:00:58.8142032, ThroughputPerSecond: 850.134785129
+589, Average: 1.1762ms, Max: 1800.037ms, Min: 0.3624ms, P90: 1.3553ms, P95: 1.42
+45ms, P99: 2.3673ms
+0r/100w, 2 threads
+Read: Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms,
+ Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write: Count: 50000, Total: 00:00:25.9681619, ThroughputPerSecond: 1925.43469932
+695, Average: 0.5193ms, Max: 82.9454ms, Min: 0.3501ms, P90: 1.1905ms, P95: 1.373
+2ms, P99: 2.9406ms
+0r/100w, 4 threads
+Read: Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms,
+ Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write: Count: 50000, Total: 00:00:19.5236537, ThroughputPerSecond: 2560.99604962
+774, Average: 0.3904ms, Max: 343.1157ms, Min: 0.3395ms, P90: 1.7984ms, P95: 2.44
+39ms, P99: 11.5336ms
+0r/100w, 8 threads
+Read: Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms,
+ Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write: Count: 50000, Total: 00:00:22.7114228, ThroughputPerSecond: 2201.53534370
+379, Average: 0.4542ms, Max: 401.7827ms, Min: 0.3398ms, P90: 5.4065ms, P95: 8.59
+21ms, P99: 32.4084ms
+0r/100w, 16 threads
+Read: Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms,
+ Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write: Count: 50000, Total: 00:00:17.5205549, ThroughputPerSecond: 2853.79089220
+513, Average: 0.3504ms, Max: 598.9334ms, Min: 0.3627ms, P90: 7.534ms, P95: 10.75
+39ms, P99: 32.6753ms
+0r/100w, 32 threads
+Read: Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms,
+ Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write: Count: 50000, Total: 00:00:12.7831308, ThroughputPerSecond: 3911.40486491
+776, Average: 0.2556ms, Max: 165.0369ms, Min: 0.3164ms, P90: 10.6161ms, P95: 13.
+4087ms, P99: 27.8382ms
+0r/100w, 64 threads
+Read: Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms,
+ Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write: Count: 50000, Total: 00:00:12.5277685, ThroughputPerSecond: 3991.13377613
+898, Average: 0.2505ms, Max: 314.8206ms, Min: 0.3161ms, P90: 17.2945ms, P95: 25.
+2007ms, P99: 70.8636ms
+0r/100w, 128 threads
+Read: Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms,
+ Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write: Count: 50000, Total: 00:00:11.6269167, ThroughputPerSecond: 4300.36623553
+001, Average: 0.2325ms, Max: 502.8628ms, Min: 0.3172ms, P90: 21.3577ms, P95: 30.
+4372ms, P99: 63.6069ms
+
+
+
+---tiger, 20 mln documnets---
+0r/100w, 1 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:01:07.6780862, ThroughputPerSecond: 738.791576526583, Average: 1.3535ms, Max: 1939.7483ms, Min: 0.4518ms, P90: 1.5014ms, P95: 1.7093ms, P99: 2.087ms
+50r/50w, 1 threads
+Read
+Count: 25166, Total: 00:01:06.0982892, ThroughputPerSecond: 380.736026674651, Average: 2.6264ms, Max: 4972.8104ms, Min: 0.5316ms, P90: 1.187ms, P95: 1.2556ms, P99: 1.9389ms
+Write
+Count: 24834, Total: 00:01:06.0982892, ThroughputPerSecond: 375.713203784403, Average: 2.6616ms, Max: 749.6041ms, Min: 0.729ms, P90: 1.5501ms, P95: 1.6668ms, P99: 2.1814ms
+81r/19w, 1 threads
+Read
+Count: 40372, Total: 00:00:56.9755863, ThroughputPerSecond: 708.584195824239, Average: 1.4112ms, Max: 2761.5639ms, Min: 0.4524ms, P90: 1.1841ms, P95: 1.2715ms, P99: 2.0002ms
+Write
+Count: 9628, Total: 00:00:56.9755863, ThroughputPerSecond: 168.984658609823, Average: 5.9176ms, Max: 29.1909ms, Min: 0.6903ms, P90: 1.5665ms, P95: 1.8656ms, P99: 2.1855ms
+---tiger, 20 mln documnets---
+0r/100w, 1 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:01:11.2792445, ThroughputPerSecond: 701.466469667759, Average: 1.4255ms, Max: 2348.7554ms, Min: 0.4398ms, P90: 1.602ms, P95: 1.9838ms, P99: 3.187ms
+0r/100w, 2 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:00:37.8445545, ThroughputPerSecond: 1321.19404391456, Average: 0.7568ms, Max: 1538.7087ms, Min: 0.4674ms, P90: 1.8717ms, P95: 2.1404ms, P99: 4.2007ms
+0r/100w, 4 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:00:15.7697663, ThroughputPerSecond: 3170.62403137832, Average: 0.3153ms, Max: 514.8507ms, Min: 0.4278ms, P90: 1.548ms, P95: 1.9794ms, P99: 3.85ms
+0r/100w, 8 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:00:17.4838334, ThroughputPerSecond: 2859.78474262973, Average: 0.3496ms, Max: 908.8973ms, Min: 0.429ms, P90: 3.7333ms, P95: 5.6957ms, P99: 14.8394ms
+0r/100w, 16 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:00:18.8191505, ThroughputPerSecond: 2656.86806638801, Average: 0.3763ms, Max: 571.2039ms, Min: 0.4175ms, P90: 8.056ms, P95: 12.7914ms, P99: 44.6913ms
+0r/100w, 32 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:00:20.0202830, ThroughputPerSecond: 2497.46719364556, Average: 0.4004ms, Max: 1125.5251ms, Min: 0.4272ms, P90: 17.5431ms, P95: 24.5881ms, P99: 57.6127ms
+0r/100w, 64 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:00:15.5310675, ThroughputPerSecond: 3219.35372439789, Average: 0.3106ms, Max: 246.817ms, Min: 0.4298ms, P90: 25.5558ms, P95: 36.1866ms, P99: 92.5733ms
+0r/100w, 128 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:00:21.0168851, ThroughputPerSecond: 2379.03950857113, Average: 0.4203ms, Max: 1055.072ms, Min: 0.4161ms, P90: 46.7441ms, P95: 68.0573ms, P99: 183.6208ms
+50r/50w, 1 threads
+Read
+Count: 24964, Total: 00:01:07.3305838, ThroughputPerSecond: 370.767615414616, Average: 2.6971ms, Max: 332.8582ms, Min: 0.5079ms, P90: 1.4222ms, P95: 1.977ms, P99: 5.0541ms
+Write
+Count: 25036, Total: 00:01:07.3305838, ThroughputPerSecond: 371.836966011871, Average: 2.6893ms, Max: 551.0133ms, Min: 0.5501ms, P90: 1.9096ms, P95: 2.0706ms, P99: 5.8869ms
+50r/50w, 2 threads
+Read
+Count: 24949, Total: 00:00:35.9896818, ThroughputPerSecond: 693.226468037292, Average: 1.4425ms, Max: 105.6192ms, Min: 0.5595ms, P90: 1.6025ms, P95: 1.9823ms, P99: 3.7793ms
+Write
+Count: 25051, Total: 00:00:35.9896818, ThroughputPerSecond: 696.060613684003, Average: 1.4366ms, Max: 336.3487ms, Min: 0.6867ms, P90: 2.0034ms, P95: 2.3597ms, P99: 4.5382ms
+50r/50w, 4 threads
+Read
+Count: 24909, Total: 00:00:20.3939195, ThroughputPerSecond: 1221.39346485113, Average: 0.8187ms, Max: 1016.1883ms, Min: 0.3539ms, P90: 1.6374ms, P95: 2.0304ms, P99: 4.9986ms
+Write
+Count: 25091, Total: 00:00:20.3939195, ThroughputPerSecond: 1230.31769346741, Average: 0.8127ms, Max: 1018.1675ms, Min: 0.4891ms, P90: 1.9975ms, P95: 2.5213ms, P99: 5.6605ms
+50r/50w, 8 threads
+Read
+Count: 25150, Total: 00:00:17.1768814, ThroughputPerSecond: 1464.17730985789, Average: 0.6829ms, Max: 1003.6075ms, Min: 0.341ms, P90: 2.5917ms, P95: 3.8145ms, P99: 10.2724ms
+Write
+Count: 24850, Total: 00:00:17.1768814, ThroughputPerSecond: 1446.71197415382, Average: 0.6912ms, Max: 1004.63ms, Min: 0.4782ms, P90: 3.0829ms, P95: 4.3274ms, P99: 11.2996ms
+50r/50w, 16 threads
+Read
+Count: 25137, Total: 00:00:16.8383198, ThroughputPerSecond: 1492.84490962097, Average: 0.6698ms, Max: 1021.8026ms, Min: 0.3818ms, P90: 6.3097ms, P95: 9.2164ms, P99: 17.1593ms
+Write
+Count: 24863, Total: 00:00:16.8383198, ThroughputPerSecond: 1476.57250220417, Average: 0.6772ms, Max: 1012.4841ms, Min: 0.5384ms, P90: 7.1754ms, P95: 9.8771ms, P99: 18.7065ms
+50r/50w, 32 threads
+Read
+Count: 25079, Total: 00:00:21.5814579, ThroughputPerSecond: 1162.0623646561, Average: 0.8605ms, Max: 1103.1856ms, Min: 0.3777ms, P90: 15.1787ms, P95: 21.0645ms, P99: 64.0216ms
+Write
+Count: 24921, Total: 00:00:21.5814579, ThroughputPerSecond: 1154.7412651858, Average: 0.8659ms, Max: 1098.0766ms, Min: 0.5196ms, P90: 16.1593ms, P95: 21.7295ms, P99: 90.9367ms
+50r/50w, 64 threads
+Read
+Count: 24913, Total: 00:00:16.7512894, ThroughputPerSecond: 1487.22879804106, Average: 0.6723ms, Max: 733.4433ms, Min: 0.3539ms, P90: 21.0853ms, P95: 32.7005ms, P99: 179.138ms
+Write
+Count: 25087, Total: 00:00:16.7512894, ThroughputPerSecond: 1497.61605814057, Average: 0.6677ms, Max: 716.1544ms, Min: 0.4492ms, P90: 23.4298ms, P95: 37.035ms, P99: 181.5408ms
+50r/50w, 128 threads
+Read
+Count: 24953, Total: 00:00:16.0058555, ThroughputPerSecond: 1558.99195766199, Average: 0.6414ms, Max: 588.9536ms, Min: 0.3577ms, P90: 28.517ms, P95: 52.4677ms, P99: 198.2609ms
+Write
+Count: 25047, Total: 00:00:16.0058555, ThroughputPerSecond: 1564.86480838216, Average: 0.639ms, Max: 589.953ms, Min: 0.4275ms, P90: 30.9178ms, P95: 74.0627ms, P99: 206.0436ms
+80r/20w, 1 threads
+Read
+Count: 40119, Total: 00:00:56.9367214, ThroughputPerSecond: 704.624344597404, Average: 1.4191ms, Max: 376.8323ms, Min: 0.4032ms, P90: 1.2979ms, P95: 1.4445ms, P99: 2.5439ms
+Write
+Count: 9881, Total: 00:00:56.9367214, ThroughputPerSecond: 173.543536702484, Average: 5.7622ms, Max: 27.3619ms, Min: 0.5249ms, P90: 1.6741ms, P95: 1.8333ms, P99: 3.1494ms
+80r/20w, 2 threads
+Read
+Count: 40038, Total: 00:00:30.6361385, ThroughputPerSecond: 1306.8879421602, Average: 0.7651ms, Max: 159.5614ms, Min: 0.5049ms, P90: 1.409ms, P95: 1.5536ms, P99: 2.421ms
+Write
+Count: 9962, Total: 00:00:30.6361385, ThroughputPerSecond: 325.171529042409, Average: 3.0752ms, Max: 171.3907ms, Min: 0.6897ms, P90: 1.775ms, P95: 1.9797ms, P99: 3.238ms
+80r/20w, 4 threads
+Read
+Count: 40155, Total: 00:00:17.3624879, ThroughputPerSecond: 2312.74459232309, Average: 0.4323ms, Max: 173.0214ms, Min: 0.4779ms, P90: 1.6401ms, P95: 1.9453ms, P99: 4.4394ms
+Write
+Count: 9845, Total: 00:00:17.3624879, ThroughputPerSecond: 567.027033032518, Average: 1.7635ms, Max: 174.5695ms, Min: 0.7518ms, P90: 2.1157ms, P95: 2.5629ms, P99: 5.2778ms
+80r/20w, 8 threads
+Read
+Count: 40088, Total: 00:00:13.4136867, ThroughputPerSecond: 2988.58925935701, Average: 0.3346ms, Max: 554.3384ms, Min: 0.3979ms, P90: 2.7656ms, P95: 4.1157ms, P99: 9.8422ms
+Write
+Count: 9912, Total: 00:00:13.4136867, ThroughputPerSecond: 738.946735650237, Average: 1.3532ms, Max: 555.217ms, Min: 0.5806ms, P90: 3.343ms, P95: 4.6579ms, P99: 9.7401ms
+80r/20w, 16 threads
+Read
+Count: 39959, Total: 00:00:12.2294389, ThroughputPerSecond: 3267.44344746675, Average: 0.306ms, Max: 1006.0467ms, Min: 0.4005ms, P90: 4.2723ms, P95: 6.0857ms, P99: 14.218ms
+Write
+Count: 10041, Total: 00:00:12.2294389, ThroughputPerSecond: 821.051569258832, Average: 1.2179ms, Max: 1006.7942ms, Min: 0.5542ms, P90: 4.7541ms, P95: 6.3842ms, P99: 13.1999ms
+80r/20w, 32 threads
+Read
+Count: 40042, Total: 00:00:11.7455465, ThroughputPerSecond: 3409.12191697509, Average: 0.2933ms, Max: 1022.1779ms, Min: 0.3803ms, P90: 6.4974ms, P95: 9.6205ms, P99: 22.8181ms
+Write
+Count: 9958, Total: 00:00:11.7455465, ThroughputPerSecond: 847.810699995952, Average: 1.1795ms, Max: 1020.2912ms, Min: 0.5425ms, P90: 7.2672ms, P95: 10.7372ms, P99: 26.5488ms
+80r/20w, 64 threads
+Read
+Count: 39999, Total: 00:00:14.4400951, ThroughputPerSecond: 2769.9956075774, Average: 0.361ms, Max: 1090.0452ms, Min: 0.3694ms, P90: 10.1096ms, P95: 13.6515ms, P99: 36.2807ms
+Write
+Count: 10001, Total: 00:00:14.4400951, ThroughputPerSecond: 692.585466421201, Average: 1.4438ms, Max: 1092.6123ms, Min: 0.5809ms, P90: 10.9208ms, P95: 14.3127ms, P99: 38.7857ms
+80r/20w, 128 threads
+Read
+Count: 40020, Total: 00:00:11.3149256, ThroughputPerSecond: 3536.92117957895, Average: 0.2827ms, Max: 841.0112ms, Min: 0.38ms, P90: 13.5699ms, P95: 17.7191ms, P99: 45.5837ms
+Write
+Count: 9980, Total: 00:00:11.3149256, ThroughputPerSecond: 882.020823893, Average: 1.1337ms, Max: 843.1783ms, Min: 0.5398ms, P90: 14.5286ms, P95: 18.8419ms, P99: 53.8489ms
+100r/0w, 1 threads
+Read
+Count: 50000, Total: 00:00:52.2726324, ThroughputPerSecond: 956.523475178954, Average: 1.0454ms, Max: 430.2748ms, Min: 0.4363ms, P90: 1.2474ms, P95: 1.3512ms, P99: 2.1876ms
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+100r/0w, 2 threads
+Read
+Count: 50000, Total: 00:00:29.2518790, ThroughputPerSecond: 1709.29190565844, Average: 0.585ms, Max: 147.499ms, Min: 0.6337ms, P90: 1.4064ms, P95: 1.5292ms, P99: 2.1497ms
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+100r/0w, 4 threads
+Read
+Count: 50000, Total: 00:00:16.4701279, ThroughputPerSecond: 3035.79913304741, Average: 0.3294ms, Max: 673.7007ms, Min: 0.3829ms, P90: 1.4803ms, P95: 1.7248ms, P99: 2.8515ms
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+100r/0w, 8 threads
+Read
+Count: 50000, Total: 00:00:09.4401305, ThroughputPerSecond: 5296.53694935679, Average: 0.1888ms, Max: 395.1738ms, Min: 0.365ms, P90: 1.9172ms, P95: 2.3975ms, P99: 4.8505ms
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+100r/0w, 16 threads
+Read
+Count: 50000, Total: 00:00:07.8940382, ThroughputPerSecond: 6333.89384915822, Average: 0.1578ms, Max: 576.4557ms, Min: 0.3636ms, P90: 2.7248ms, P95: 3.206ms, P99: 6.5446ms
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+100r/0w, 32 threads
+Read
+Count: 50000, Total: 00:00:07.3415844, ThroughputPerSecond: 6810.51899369297, Average: 0.1468ms, Max: 150.3455ms, Min: 0.3738ms, P90: 4.0101ms, P95: 4.5937ms, P99: 8.0235ms
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+100r/0w, 64 threads
+Read
+Count: 50000, Total: 00:00:07.5522699, ThroughputPerSecond: 6620.5261016956, Average: 0.151ms, Max: 74.406ms, Min: 0.353ms, P90: 5.9628ms, P95: 7.4883ms, P99: 15.0505ms
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+100r/0w, 128 threads
+Read
+Count: 50000, Total: 00:00:08.1858683, ThroughputPerSecond: 6108.087519561, Average: 0.1637ms, Max: 132.6789ms, Min: 0.3718ms, P90: 8.0164ms, P95: 10.9219ms, P99: 25.6318ms
+
+
+mmapv1, 20mln documents
+starting cleanup
+Clean
+Prepare done, inserted: 20000000
+0r/100w, 1 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:02:01.4100578, ThroughputPerSecond: 411.827495234089, Average: 2.4282ms, Max: 1176.3342ms, Min: 0.3501ms, P90: 2.699ms, P95: 2.9295ms, P99: 12.7049ms
+0r/100w, 2 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:01:25.6196861, ThroughputPerSecond: 583.97784758989, Average: 1.7123ms, Max: 126.3969ms, Min: 0.3554ms, P90: 4.2127ms, P95: 5.174ms, P99: 25.6086ms
+0r/100w, 4 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:01:20.3972071, ThroughputPerSecond: 621.912150975702, Average: 1.6079ms, Max: 148.4705ms, Min: 0.4155ms, P90: 8.2739ms, P95: 10.3495ms, P99: 37.3089ms
+0r/100w, 8 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:01:20.6493492, ThroughputPerSecond: 619.967805022288, Average: 1.6129ms, Max: 163.673ms, Min: 1.0281ms, P90: 16.6933ms, P95: 31.5102ms, P99: 48.0165ms
+0r/100w, 16 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:01:18.7678406, ThroughputPerSecond: 634.776827943154, Average: 1.5753ms, Max: 203.2343ms, Min: 2.1439ms, P90: 39.8645ms, P95: 51.9812ms, P99: 63.2688ms
+0r/100w, 32 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:01:15.7990851, ThroughputPerSecond: 659.638568645468, Average: 1.5159ms, Max: 197.9788ms, Min: 1.7864ms, P90: 71.1636ms, P95: 76.825ms, P99: 87.9212ms
+0r/100w, 64 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:01:16.2711280, ThroughputPerSecond: 655.556057857175, Average: 1.5254ms, Max: 444.4348ms, Min: 2.0975ms, P90: 121.629ms, P95: 127.3432ms, P99: 143.244ms
+0r/100w, 128 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:01:16.2768138, ThroughputPerSecond: 655.507191623151, Average: 1.5255ms, Max: 376.8186ms, Min: 15.1807ms, P90: 213.6203ms, P95: 223.6431ms, P99: 263.454ms
+50r/50w, 1 threads
+Read
+Count: 25211, Total: 00:01:10.9007321, ThroughputPerSecond: 355.581659783736, Average: 2.8122ms, Max: 81.7451ms, Min: 0.3126ms, P90: 0.9932ms, P95: 1.0618ms, P99: 1.6603ms
+Write
+Count: 24789, Total: 00:01:10.9007321, ThroughputPerSecond: 349.629676108803, Average: 2.8601ms, Max: 36.2391ms, Min: 0.3598ms, P90: 2.5418ms, P95: 2.7043ms, P99: 11.7627ms
+50r/50w, 2 threads
+Read
+Count: 25009, Total: 00:00:51.5297148, ThroughputPerSecond: 485.331620737012, Average: 2.0604ms, Max: 80.8927ms, Min: 0.258ms, P90: 2.1401ms, P95: 2.3632ms, P99: 4.8485ms
+Write
+Count: 24991, Total: 00:00:51.5297148, ThroughputPerSecond: 484.982307722767, Average: 2.0619ms, Max: 46.013ms, Min: 0.3662ms, P90: 3.6485ms, P95: 4.006ms, P99: 21.3606ms
+50r/50w, 4 threads
+Read
+Count: 25072, Total: 00:00:41.6062924, ThroughputPerSecond: 602.601158472847, Average: 1.6594ms, Max: 49.6783ms, Min: 0.2518ms, P90: 3.9837ms, P95: 4.9215ms, P99: 17.8399ms
+Write
+Count: 24928, Total: 00:00:41.6062924, ThroughputPerSecond: 599.140143523098, Average: 1.669ms, Max: 51.8196ms, Min: 0.3935ms, P90: 5.5074ms, P95: 6.5332ms, P99: 31.8149ms
+50r/50w, 8 threads
+Read
+Count: 25160, Total: 00:00:35.2358619, ThroughputPerSecond: 714.045255126851, Average: 1.4004ms, Max: 208.5277ms, Min: 0.1829ms, P90: 7.4505ms, P95: 9.2026ms, P99: 35.9588ms
+Write
+Count: 24840, Total: 00:00:35.2358619, ThroughputPerSecond: 704.963598463871, Average: 1.4185ms, Max: 208.3131ms, Min: 0.3636ms, P90: 8.9232ms, P95: 11.2375ms, P99: 39.7317ms
+50r/50w, 16 threads
+Read
+Count: 24817, Total: 00:00:36.4611695, ThroughputPerSecond: 680.6419086475, Average: 1.4692ms, Max: 153.9522ms, Min: 0.2929ms, P90: 14.972ms, P95: 21.9521ms, P99: 48.1827ms
+Write
+Count: 25183, Total: 00:00:36.4611695, ThroughputPerSecond: 690.679984908328, Average: 1.4478ms, Max: 154.424ms, Min: 0.6037ms, P90: 16.8525ms, P95: 28.3126ms, P99: 50.9642ms
+50r/50w, 32 threads
+Read
+Count: 24859, Total: 00:00:37.5620675, ThroughputPerSecond: 661.811280755512, Average: 1.511ms, Max: 120.3704ms, Min: 0.47ms, P90: 34.4635ms, P95: 49.2138ms, P99: 62.1272ms
+Write
+Count: 25141, Total: 00:00:37.5620675, ThroughputPerSecond: 669.318854719592, Average: 1.494ms, Max: 121.0349ms, Min: 1.1987ms, P90: 38.9094ms, P95: 51.6797ms, P99: 64.3119ms
+50r/50w, 64 threads
+Read
+Count: 24850, Total: 00:00:35.0825398, ThroughputPerSecond: 708.329560563913, Average: 1.4117ms, Max: 161.5373ms, Min: 0.6196ms, P90: 58.5737ms, P95: 69.0631ms, P99: 82.202ms
+Write
+Count: 25150, Total: 00:00:35.0825398, ThroughputPerSecond: 716.880822864484, Average: 1.3949ms, Max: 178.5743ms, Min: 0.4859ms, P90: 61.6478ms, P95: 71.5847ms, P99: 84.8093ms
+50r/50w, 128 threads
+Read
+Count: 25089, Total: 00:00:40.5028507, ThroughputPerSecond: 619.437880702061, Average: 1.6143ms, Max: 254.0279ms, Min: 11.5674ms, P90: 99.5751ms, P95: 107.6825ms, P99: 122.8554ms
+Write
+Count: 24911, Total: 00:00:40.5028507, ThroughputPerSecond: 615.043128309978, Average: 1.6259ms, Max: 300.2331ms, Min: 2.9831ms, P90: 101.8402ms, P95: 110.2285ms, P99: 126.1952ms
+80r/20w, 1 threads
+Read
+Count: 39981, Total: 00:00:49.7643635, ThroughputPerSecond: 803.40623667376, Average: 1.2447ms, Max: 27.2127ms, Min: 0.2301ms, P90: 1.0448ms, P95: 1.2509ms, P99: 1.9929ms
+Write
+Count: 10019, Total: 00:00:49.7643635, ThroughputPerSecond: 201.328808314809, Average: 4.9669ms, Max: 40.7ms, Min: 0.3436ms, P90: 2.4342ms, P95: 2.7327ms, P99: 6.8974ms
+80r/20w, 2 threads
+Read
+Count: 39902, Total: 00:00:34.6858420, ThroughputPerSecond: 1150.38291415846, Average: 0.8692ms, Max: 171.8898ms, Min: 0.304ms, P90: 1.9899ms, P95: 2.2069ms, P99: 3.6028ms
+Write
+Count: 10098, Total: 00:00:34.6858420, ThroughputPerSecond: 291.12742888006, Average: 3.4349ms, Max: 51.5639ms, Min: 0.4765ms, P90: 3.4438ms, P95: 3.7664ms, P99: 13.0741ms
+80r/20w, 4 threads
+Read
+Count: 39932, Total: 00:00:23.2787208, ThroughputPerSecond: 1715.38635404743, Average: 0.5829ms, Max: 49.8387ms, Min: 0.2489ms, P90: 2.5034ms, P95: 3.413ms, P99: 6.0156ms
+Write
+Count: 10068, Total: 00:00:23.2787208, ThroughputPerSecond: 432.497991899967, Average: 2.3121ms, Max: 51.8313ms, Min: 0.3639ms, P90: 4.0934ms, P95: 5.0843ms, P99: 23.3096ms
+80r/20w, 8 threads
+Read
+Count: 40070, Total: 00:00:18.8269081, ThroughputPerSecond: 2128.33672885459, Average: 0.4698ms, Max: 93.9729ms, Min: 0.1818ms, P90: 4.5124ms, P95: 5.6227ms, P99: 20.2237ms
+Write
+Count: 9930, Total: 00:00:18.8269081, ThroughputPerSecond: 527.436578925033, Average: 1.8959ms, Max: 93.9606ms, Min: 0.3815ms, P90: 6.4153ms, P95: 8.1604ms, P99: 30.3791ms
+80r/20w, 16 threads
+Read
+Count: 39854, Total: 00:00:15.1626455, ThroughputPerSecond: 2628.43314512629, Average: 0.3804ms, Max: 62.08ms, Min: 0.2002ms, P90: 6.893ms, P95: 8.5628ms, P99: 30.5082ms
+Write
+Count: 10146, Total: 00:00:15.1626455, ThroughputPerSecond: 669.144444483649, Average: 1.4944ms, Max: 61.8087ms, Min: 0.3976ms, P90: 8.6085ms, P95: 10.9776ms, P99: 35.8353ms
+80r/20w, 32 threads
+Read
+Count: 39918, Total: 00:00:13.5017399, ThroughputPerSecond: 2956.5078497772, Average: 0.3382ms, Max: 69.9112ms, Min: 0.3093ms, P90: 10.0533ms, P95: 13.1937ms, P99: 38.
+
+
+---tiger, insert, no journal---
+Insert
+Count: 50000, Total: 00:00:20.3298686, ThroughputPerSecond: 2459.43547318353, Av
+erage: 0.4065ms, Max: 105.1629ms, Min: 0.1873ms, P90: 0.4257ms, P95: 0.4733ms, P99: 0.5985ms
+---tiger, insert, journal---
+Insert
+Count: 50000, Total: 00:00:20.1686825, ThroughputPerSecond: 2479.09103631335, Av
+erage: 0.4033ms, Max: 105.9808ms, Min: 0.1721ms, P90: 0.4384ms, P95: 0.4888ms, P
+99: 0.6099ms
+
+---tiger, insert, journal and verbose log---
+Insert
+Count: 50000, Total: 00:00:37.3836961, ThroughputPerSecond: 1337.48144822951, 
+Average: 0.7476ms, Max: 104.331ms, Min: 0.3671ms, P90: 0.8366ms, P95: 0.9897ms, P99: 1.2685ms
