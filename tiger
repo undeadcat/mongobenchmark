@@ -1,0 +1,53 @@
+tiger, 20mln documents
+starting cleanup
+Clean
+tiger, 20mln documents
+starting cleanup
+Clean
+Prepare done, inserted: 20000000 in 603864.4809ms
+0r/100w, 1 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:02:19.4110438, ThroughputPerSecond: 358.651643636858, Average: 2.7839ms, Max: 392.2167ms, Min: 0.0213ms, P90: 5.3193ms, P95: 6.5963ms, P99: 9.634ms
+tiger, 20mln documents
+0r/100w, 1 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:00:06.7690604, ThroughputPerSecond: 7386.54954238553, Average: 0.134ms, Max: 21.0037ms, Min: 0.0195ms, P90: 0.1891ms, P95: 0.3288ms, P99: 0.4439ms
+0r/100w, 2 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:00:04.0959698, ThroughputPerSecond: 12207.1212536772, Average: 0.1626ms, Max: 315.1119ms, Min: 0.0198ms, P90: 0.2951ms, P95: 0.3891ms, P99: 0.6493ms
+0r/100w, 4 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:00:02.6920756, ThroughputPerSecond: 18573.029672718, Average: 0.2142ms, Max: 48.9601ms, Min: 0.0195ms, P90: 0.5216ms, P95: 0.7704ms, P99: 1.5682ms
+0r/100w, 8 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:00:07.1069217, ThroughputPerSecond: 7035.39480391349, Average: 0.9142ms, Max: 4051.0132ms, Min: 0.0198ms, P90: 0.9267ms, P95: 1.4101ms, P99: 2.7485ms
+0r/100w, 16 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:00:02.1744165, ThroughputPerSecond: 22994.6746632947, Average: 0.3467ms, Max: 159.1659ms, Min: 0.0198ms, P90: 0.9402ms, P95: 1.4468ms, P99: 2.6916ms
+0r/100w, 32 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:00:19.8628816, ThroughputPerSecond: 2517.25812029207, Average: 7.074ms, Max: 3836.1667ms, Min: 0.0195ms, P90: 3.3541ms, P95: 6.9384ms, P99: 151.706ms
+0r/100w, 64 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:00:06.5270454, ThroughputPerSecond: 7660.43392313465, Average: 3.7681ms, Max: 522.7251ms, Min: 0.0198ms, P90: 5.5055ms, P95: 10.7733ms, P99: 57.1897ms
+0r/100w, 128 threads
+
+Count: 0, Total: 00:00:00, ThroughputPerSecond: 0, Average: 0ms, Max: 0ms, Min: 0ms, P90: 0ms, P95: 0ms, P99: 0ms
+Write
+Count: 50000, Total: 00:00:05.3552976, ThroughputPerSecond: 9336.54928906285, Average: 3.436ms, Max: 317.1217ms, Min: 0.0198ms, P90: 5.8943ms, P95: 9.7189ms, P99: 58.6197ms
