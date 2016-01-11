@@ -1,0 +1,101 @@
+ImageRuntimeVersion: v4.0.30319
+Assembly WiredTigerNet, Version=1.0.*, Culture=Invariant Language (Invariant Country): 
+	hash=SHA1, flags=PublicKey
+Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Struct WiredTigerNet.Boundary: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
+    Void .ctor(Byte[], Boolean): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Properties:
+    Boolean Inclusive 'get ' : 
+    Byte[] Bytes 'get ' : 
+  Methods:
+    get_Bytes(): PrivateScope, Public, Final, Virtual, HideBySig, SpecialName
+    get_Inclusive(): PrivateScope, Public, Final, Virtual, HideBySig, SpecialName
+Struct WiredTigerNet.Range: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
+    Void .ctor(System.Nullable`1[WiredTigerNet.Boundary], System.Nullable`1[WiredTigerNet.Boundary]): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Properties:
+    System.Nullable`1[WiredTigerNet.Boundary] Right 'get ' : 
+    System.Nullable`1[WiredTigerNet.Boundary] Left 'get ' : 
+  Methods:
+    get_Left(): PrivateScope, Public, Final, Virtual, HideBySig, SpecialName
+    get_Right(): PrivateScope, Public, Final, Virtual, HideBySig, SpecialName
+    Segment(Byte[], Byte[]): PrivateScope, Public, Static, HideBySig
+    PositiveRay(Byte[]): PrivateScope, Public, Static, HideBySig
+    NegativeRay(Byte[]): PrivateScope, Public, Static, HideBySig
+    NegativeOpenRay(Byte[]): PrivateScope, Public, Static, HideBySig
+    Line(): PrivateScope, Public, Static, HideBySig
+    Empty(): PrivateScope, Public, Static, HideBySig
+    PositiveOpenRay(Byte[]): PrivateScope, Public, Static, HideBySig
+    LeftOpenSegment(Byte[], Byte[]): PrivateScope, Public, Static, HideBySig
+    RightOpenSegment(Byte[], Byte[]): PrivateScope, Public, Static, HideBySig
+    Interval(Byte[], Byte[]): PrivateScope, Public, Static, HideBySig
+    Prefix(Byte[], Byte[]): PrivateScope, Public, Static, HideBySig
+    Prefix(Byte[]): PrivateScope, Public, Static, HideBySig
+    IncrementBytes(Byte[]): PrivateScope, Public, Static, HideBySig
+    DecrementBytes(Byte[]): PrivateScope, Public, Static, HideBySig
+Class WiredTigerNet.WiredException: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Exception
+    Void .ctor(Int32, System.String): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Properties:
+    System.String Message 'get ' : 
+    Int32 TigerError 'get ' : 
+  Methods:
+    get_TigerError(): PrivateScope, Public, HideBySig, SpecialName
+    get_Message(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+Class WiredTigerNet.Cursor: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  Interfaces:
+    System.IDisposable
+  Methods:
+    Insert(UInt32, Byte[]): PrivateScope, Public, HideBySig
+    Insert(Byte[]): PrivateScope, Public, HideBySig
+    Insert(Byte[], Byte[]): PrivateScope, Public, HideBySig
+    InsertIndex(Byte[], Byte[]): PrivateScope, Public, HideBySig
+    Next(): PrivateScope, Public, HideBySig
+    Prev(): PrivateScope, Public, HideBySig
+    Remove(Byte[]): PrivateScope, Public, HideBySig
+    Reset(): PrivateScope, Public, HideBySig
+    Search(UInt32): PrivateScope, Public, HideBySig
+    Search(Byte[]): PrivateScope, Public, HideBySig
+    SearchNear(Byte[], Int32&(Out)): PrivateScope, Public, HideBySig
+    GetTotalCount(Range): PrivateScope, Public, HideBySig
+    GetKey(): PrivateScope, Public, HideBySig
+    GetKeyUInt32(): PrivateScope, Public, HideBySig
+    GetValue(): PrivateScope, Public, HideBySig
+    GetValueUInt32(): PrivateScope, Public, HideBySig
+    Decode(UInt32[]): PrivateScope, Public, HideBySig
+    Dispose(): PrivateScope, Public, Final, Virtual, HideBySig
+Class WiredTigerNet.Session: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  Interfaces:
+    System.IDisposable
+  Methods:
+    BeginTran(String): PrivateScope, Public, HideBySig
+    BeginTran(): PrivateScope, Public, HideBySig
+    CommitTran(): PrivateScope, Public, HideBySig
+    RollbackTran(): PrivateScope, Public, HideBySig
+    Checkpoint(String): PrivateScope, Public, HideBySig
+    Checkpoint(): PrivateScope, Public, HideBySig
+    Compact(String): PrivateScope, Public, HideBySig
+    Create(String, String): PrivateScope, Public, HideBySig
+    Drop(String): PrivateScope, Public, HideBySig
+    Rename(String, String): PrivateScope, Public, HideBySig
+    OpenCursor(String, String): PrivateScope, Public, HideBySig
+    OpenCursor(String): PrivateScope, Public, HideBySig
+    Dispose(): PrivateScope, Public, Final, Virtual, HideBySig
+Class WiredTigerNet.Connection: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  Interfaces:
+    System.IDisposable
+  Methods:
+    OpenSession(String): PrivateScope, Public, HideBySig
+    IsNew(): PrivateScope, Public, HideBySig
+    GetHome(): PrivateScope, Public, HideBySig
+    AsyncFlush(): PrivateScope, Public, HideBySig
+    Open(String, String): PrivateScope, Public, Static, HideBySig
+    Dispose(): PrivateScope, Public, Final, Virtual, HideBySig
